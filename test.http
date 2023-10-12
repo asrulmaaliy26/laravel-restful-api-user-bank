@@ -34,7 +34,6 @@ Authorization: 7effe30d-7600-449e-b54b-617cee3bc1b9
     "name" : "Eko Khannedy"
 }
 
-### Logout User API
 DELETE http://localhost:8000/api/users/logout
 Accept: application/json
 Authorization: 7effe30d-7600-449e-b54b-617cee3bc1b9
