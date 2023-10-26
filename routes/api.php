@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,35 +17,47 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::post('/users', [\App\Http\Controllers\UserController::class, 'register']);
-Route::post('/users/login', [\App\Http\Controllers\UserController::class, 'login']);
+Route::post('/users', [\App\Http\Controllers\API\UserController::class, 'register']);
+Route::post('/users/login', [\App\Http\Controllers\API\UserController::class, 'login']);
 
-Route::middleware(\App\Http\Middleware\ApiAuthMiddleware::class)->group(function () {
-    Route::get('/users/current', [\App\Http\Controllers\UserController::class, 'get']);
-    Route::patch('/users/current', [\App\Http\Controllers\UserController::class, 'update']);
-    Route::delete('/users/logout', [\App\Http\Controllers\UserController::class, 'logout']);
+Route::middleware('apiAuth')->group(function () {
+    // Route::middleware(\App\Http\Middleware\ApiAuthMiddleware::class)->group(function () {
+    Route::get('/users/current', [\App\Http\Controllers\API\UserController::class, 'get']);
+    Route::patch('/users/current', [\App\Http\Controllers\API\UserController::class, 'update'])->middleware('userAkses:admin');
+    Route::delete('/users/logout', [\App\Http\Controllers\API\UserController::class, 'logout']);
 
-    Route::post('/contacts', [\App\Http\Controllers\ContactController::class, 'create']);
-    Route::get('/contacts', [\App\Http\Controllers\ContactController::class, 'search']);
-    
+    Route::post('/contacts', [\App\Http\Controllers\API\ContactController::class, 'create']);
+    Route::post('/balances', [\App\Http\Controllers\API\BalanceController::class, 'create']);
+
+    Route::get('/contacts', [\App\Http\Controllers\API\ContactController::class, 'search']);
+    Route::get('/balances', [\App\Http\Controllers\API\BalanceController::class, 'search']);
+
     // id harus number
-    // Route::get('/contacts/{id=[0-9]}', [\App\Http\Controllers\ContactController::class, 'get']);
-    Route::get('/contacts/{id}', [\App\Http\Controllers\ContactController::class, 'get'])->where('id', '[0-9]+');
+    // Route::get('/contacts/{id=[0-9]}', [\App\Http\Controllers\API\ContactController::class, 'get']);
 
-   Route::put('/contacts/{id}', [\App\Http\Controllers\ContactController::class, 'update'])->where('id', '[0-9]+');
-    Route::delete('/contacts/{id}', [\App\Http\Controllers\ContactController::class, 'delete'])->where('id', '[0-9]+');
+    Route::get('/contacts/{id}', [\App\Http\Controllers\API\ContactController::class, 'get'])->where('id', '[0-9]+');
+    Route::get('/balances/{id}', [\App\Http\Controllers\API\BalanceController::class, 'get'])->where('id', '[0-9]+');
 
-    Route::post('/contacts/{idContact}/addresses', [\App\Http\Controllers\AddressController::class, 'create'])
+    Route::put('/contacts/{id}', [\App\Http\Controllers\API\ContactController::class, 'update'])->where('id', '[0-9]+')->middleware('userAkses:admin');
+    Route::put('/balances/{id}', [\App\Http\Controllers\API\BalanceController::class, 'update'])->where('id', '[0-9]+')->middleware('userAkses:admin');
+
+    Route::put('/balances/add/{id}', [\App\Http\Controllers\API\BalanceController::class, 'add'])->where('id', '[0-9]+');
+    Route::put('/balances/subtract/{id}', [\App\Http\Controllers\API\BalanceController::class, 'subtract'])->where('id', '[0-9]+');
+
+    Route::delete('/contacts/{id}', [\App\Http\Controllers\API\ContactController::class, 'delete'])->where('id', '[0-9]+');
+
+    Route::post('/contacts/{idContact}/addresses', [\App\Http\Controllers\API\AddressController::class, 'create'])
         ->where('idContact', '[0-9]+');
-    Route::get('/contacts/{idContact}/addresses', [\App\Http\Controllers\AddressController::class, 'list'])
+    Route::get('/contacts/{idContact}/addresses', [\App\Http\Controllers\API\AddressController::class, 'list'])
         ->where('idContact', '[0-9]+');
-    Route::get('/contacts/{idContact}/addresses/{idAddress}', [\App\Http\Controllers\AddressController::class, 'get'])
+    Route::get('/contacts/{idContact}/addresses/{idAddress}', [\App\Http\Controllers\API\AddressController::class, 'get'])
         ->where('idContact', '[0-9]+')
         ->where('idAddress', '[0-9]+');
-    Route::put('/contacts/{idContact}/addresses/{idAddress}', [\App\Http\Controllers\AddressController::class, 'update'])
+    Route::put('/contacts/{idContact}/addresses/{idAddress}', [\App\Http\Controllers\API\AddressController::class, 'update'])
         ->where('idContact', '[0-9]+')
-        ->where('idAddress', '[0-9]+');
-    Route::delete('/contacts/{idContact}/addresses/{idAddress}', [\App\Http\Controllers\AddressController::class, 'delete'])
+        ->where('idAddress', '[0-9]+')
+        ->middleware('userAkses:admin');
+    Route::delete('/contacts/{idContact}/addresses/{idAddress}', [\App\Http\Controllers\API\AddressController::class, 'delete'])
         ->where('idContact', '[0-9]+')
         ->where('idAddress', '[0-9]+');
 });

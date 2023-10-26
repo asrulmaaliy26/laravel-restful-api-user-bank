@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Http\Requests\ContactCreateRequest;
 use App\Http\Requests\ContactUpdateRequest;
@@ -13,12 +13,12 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ContactController extends Controller
+class ContactController extends \App\Http\Controllers\API\Controller
 {
     public function create(ContactCreateRequest $request): JsonResponse
     {
         $data = $request->validated();
-        $user = Auth::user();
+        $user = auth()->user();
 
         $contact = new Contact($data);
         $contact->user_id = $user->id;

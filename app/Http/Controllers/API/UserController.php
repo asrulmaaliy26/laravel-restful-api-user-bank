@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
@@ -10,14 +10,13 @@ use App\Models\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class UserController extends Controller
+class UserController extends \App\Http\Controllers\API\Controller
 {
-    private $currentUser;
+
     public function register(UserRegisterRequest $request): JsonResponse
     {
         $data = $request->validated();
@@ -89,7 +88,8 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    public function logout(Request $request): JsonResponse {
+    public function logout(Request $request): JsonResponse
+    {
         $user = Auth::user();
         $user->token = null;
         $user->save();

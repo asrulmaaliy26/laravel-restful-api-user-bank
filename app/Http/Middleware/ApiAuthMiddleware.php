@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ApiAuthMiddleware
 {
+
     /**
      * Handle an incoming request.
      *
@@ -17,6 +18,7 @@ class ApiAuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+
         $token = $request->header('Authorization');
         $authenticate = true;
 

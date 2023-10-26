@@ -26,7 +26,10 @@ implements Authenticatable
     {
         return $this->hasMany(Contact::class, "user_id", "id");
     }
-
+    public function balances()
+    {
+        return $this->hasMany(Balance::class, 'user_id', 'id');
+    }
     public function getAuthIdentifierName()
     {
         return 'username';

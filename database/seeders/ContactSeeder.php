@@ -19,7 +19,7 @@ class ContactSeeder extends Seeder
             'first_name' => 'test',
             'last_name' => 'test',
             'email' => 'test@pzn.com',
-            'phone' => '111111',
+            'phone' => '085',
             'user_id' => $user->id
         ]);
     }

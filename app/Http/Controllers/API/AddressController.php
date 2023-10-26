@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Http\Requests\AddressCreateRequest;
 use App\Http\Requests\AddressUpdateRequest;
 use App\Http\Resources\AddressResource;
-use App\Http\Resources\ContactResource;
 use App\Models\Address;
 use App\Models\Contact;
 use App\Models\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AddressController extends Controller
+class AddressController extends \App\Http\Controllers\API\Controller
 {
 
     private function getContact(User $user, int $idContact): Contact
