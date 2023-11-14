@@ -12,14 +12,14 @@ class UserTest extends TestCase
     public function testRegisterSuccess()
     {
         $this->post('/api/users', [
-            'username' => 'khannedy',
+            'username' => 'maaliy',
             'password' => 'rahasia',
-            'name' => 'Eko Kurniawan Khannedy'
+            'name' => 'Asrul Maaliy'
         ])->assertStatus(201)
             ->assertJson([
                 "data" => [
-                    'username' => 'khannedy',
-                    'name' => 'Eko Kurniawan Khannedy'
+                    'username' => 'maaliy',
+                    'name' => 'Asrul Maaliy'
                 ]
             ]);
     }
@@ -52,7 +52,7 @@ class UserTest extends TestCase
         $this->post('/api/users', [
             'username' => 'khannedy',
             'password' => 'rahasia',
-            'name' => 'Eko Kurniawan Khannedy'
+            'name' => 'Asrul Maaliy'
         ])->assertStatus(400)
             ->assertJson([
                 "errors" => [
